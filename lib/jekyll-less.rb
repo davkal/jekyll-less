@@ -46,7 +46,7 @@ module Jekyll
 
       # Initialize options from site config.
       def initialize(config = {})
-        @options = config["less"] ||= {"compress" => true}
+        @options = config["less"] ||= {"compress" => true, "entrypoint" => nil}
       end
 
       # Jekyll will have already added the *.less files as Jekyll::StaticFile
@@ -55,6 +55,10 @@ module Jekyll
       def generate(site)
         site.static_files.clone.each do |sf|
           if sf.kind_of?(Jekyll::StaticFile) && sf.path =~ /\.less$/
+            if @options["entrypoint"] && not(sf.path =~ /#{@options["entrypoint"]}/)
+              # if entrypoint points to a file path, other files are skipped
+              next
+            end
             site.static_files.delete(sf)
             name = File.basename(sf.path)
             destination = File.dirname(sf.path).sub(site.source, '')

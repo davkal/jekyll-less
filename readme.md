@@ -39,6 +39,14 @@ of the gems specified in your Gemfile.
     require "bundler/setup"
     Bundler.require(:default)
 
+Options
+-------
+
+    less:
+        compress: true
+        entrypoint: "relative-path/to/main.less"
+
+
 Credit
 ------
 This gem was originally based on this [gist](https://gist.github.com/760265) by
